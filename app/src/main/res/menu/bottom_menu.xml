@@ -27,4 +27,11 @@
         android:icon="@drawable/ic_launcher_background"
         app:showAsAction="ifRoom"
         />
+
+    <item
+        android:title="@string/itemLibrary"
+        android:id="@+id/library"
+        android:icon="@drawable/ic_launcher_background"
+        app:showAsAction="ifRoom"
+        />
 </menu>

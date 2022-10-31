@@ -7,4 +7,8 @@
     <string name="itemNotification">Notification</string>
     <string name="itemSearch">Search</string>
     <string name="itemAccount">Account</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="toastAddAVideo">Add a video</string>
+    <string name="itemLibrary">Library</string>
 </resources>
