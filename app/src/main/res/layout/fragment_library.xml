@@ -25,7 +25,7 @@
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="5dp"
                 android:padding="5dp"
-                android:text="Recent"
+                android:text="@string/tvRecent"
                 android:textColor="@color/black"
                 android:textSize="16dp" />
 
@@ -61,7 +61,7 @@
                 android:drawableStart="@drawable/history"
                 android:drawablePadding="28dp"
                 android:padding="5dp"
-                android:text="History"
+                android:text="@string/tvHistory"
                 android:textColor="@color/black"
                 android:textSize="18dp" />
 
@@ -71,7 +71,7 @@
                 android:drawableStart="@drawable/your_video"
                 android:drawablePadding="28dp"
                 android:padding="5dp"
-                android:text="Your videos"
+                android:text="@string/tvYour_videos"
                 android:textColor="@color/black"
                 android:textSize="18dp" />
 
@@ -81,7 +81,7 @@
                 android:drawableStart="@drawable/download"
                 android:drawablePadding="28dp"
                 android:padding="5dp"
-                android:text="Downloads"
+                android:text="@string/tvDownloads"
                 android:textColor="@color/black"
                 android:textSize="18dp" />
 
@@ -91,7 +91,7 @@
                 android:drawableStart="@drawable/watch_later"
                 android:drawablePadding="28dp"
                 android:padding="5dp"
-                android:text="Watch later"
+                android:text="@string/tvWatch_later"
                 android:textColor="@color/black"
                 android:textSize="18dp" />
 
@@ -101,7 +101,7 @@
                 android:drawableStart="@drawable/like_video"
                 android:drawablePadding="28dp"
                 android:padding="5dp"
-                android:text="Liked videos"
+                android:text="@string/tvLiked_videos"
                 android:textColor="@color/black"
                 android:textSize="18dp" />
 
@@ -128,7 +128,7 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
             android:padding="5dp"
-            android:text="PlayList"
+            android:text="@string/tvPlaylist"
             android:textColor="@color/black"
             android:textSize="16dp" />
 
@@ -140,7 +140,7 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
             android:padding="5dp"
-            android:text="New PlayList"
+            android:text="@string/tvNew_playlist"
             android:textColor="#5E23AF"
             android:textSize="16dp" />
 

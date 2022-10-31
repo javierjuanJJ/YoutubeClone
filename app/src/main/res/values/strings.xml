@@ -11,4 +11,13 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="toastAddAVideo">Add a video</string>
     <string name="itemLibrary">Library</string>
+    <string name="tvText">You need to sign in for content management</string>
+    <string name="tvRecent">Recent</string>
+    <string name="tvHistory">History</string>
+    <string name="tvYour_videos">Your videos</string>
+    <string name="tvDownloads">Downloads</string>
+    <string name="tvWatch_later">Watch later</string>
+    <string name="tvLiked_videos">Liked videos</string>
+    <string name="tvPlaylist">PlayList</string>
+    <string name="tvNew_playlist">New PlayList</string>
 </resources>
