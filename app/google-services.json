@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "940590890953",
+    "firebase_url": "https://clone-b6489-default-rtdb.firebaseio.com",
+    "project_id": "clone-b6489",
+    "storage_bucket": "clone-b6489.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:940590890953:android:c464db262dca91410d7218",
+        "android_client_info": {
+          "package_name": "whatsappclone.proyecto_javier_juan_uceda.youtubeclone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "940590890953-8irbf8m8aoniesnpb8mlggqusvamho3i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "whatsappclone.proyecto_javier_juan_uceda.youtubeclone",
+            "certificate_hash": "d856537376d0cfc4f402ab00d7c23e6224223d00"
+          }
+        },
+        {
+          "client_id": "940590890953-rafitnckibvaet2uiodi34mc1r3vjcm6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWaHbTWSsTANq6zByHmG7idlMRYaunYzk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "940590890953-rafitnckibvaet2uiodi34mc1r3vjcm6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
