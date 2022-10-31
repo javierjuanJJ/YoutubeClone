@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">YoutubeClone</string>
+    <string name="itemHome">Home</string>
+    <string name="itemExplore">Explore</string>
+    <string name="itemSubscriptions">Subscriptions</string>
+    <string name="itemPublish">Publish</string>
+    <string name="itemNotification">Notification</string>
+    <string name="itemSearch">Search</string>
+    <string name="itemAccount">Account</string>
 </resources>
