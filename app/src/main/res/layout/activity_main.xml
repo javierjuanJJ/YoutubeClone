@@ -28,7 +28,26 @@
                 android:adjustViewBounds="true"
                 android:src="@drawable/ic_launcher_background" />
 
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_launcher_background"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="18dp"
+                    android:id="@+id/user_profile_image"
+
+                    ></de.hdodenhof.circleimageview.CircleImageView>
+
+            </RelativeLayout>
+
         </androidx.appcompat.widget.Toolbar>
+
+
 
     </com.google.android.material.appbar.AppBarLayout>
 

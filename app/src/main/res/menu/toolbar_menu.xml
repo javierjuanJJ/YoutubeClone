@@ -15,11 +15,5 @@
         android:icon="@drawable/ic_launcher_background"
         app:showAsAction="ifRoom"
         />
-    <item
-        android:title="@string/itemAccount"
-        android:id="@+id/account"
-        android:icon="@drawable/ic_launcher_background"
-        app:showAsAction="ifRoom"
-        />
 
 </menu>
