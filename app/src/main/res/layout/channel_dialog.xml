@@ -16,7 +16,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Use Youtube clone As ......"
+            android:text="@string/tvYoutubeClone"
             android:textSize="18dp"
             android:textColor="#212121"
             android:fontFamily="sans-serif"/>
@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:background="@drawable/edittext_bg"
-            android:hint="Channel name"
+            android:hint="@string/tvInputChannelName"
             android:inputType="text"
             android:id="@+id/input_channel_name"
             android:textColor="#212121"
@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:background="@drawable/edittext_bg"
-            android:hint="Description"
+            android:hint="@string/tvDescription"
             android:inputType="textMultiLine"
             android:layout_marginTop="8dp"
             android:id="@+id/input_description"
@@ -49,7 +49,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="By creating new channel accept our terms and conditions"
+            android:text="@string/tvTerms"
             android:layout_marginTop="4dp"
             android:fontFamily="sans-serif"/>
 
@@ -57,7 +57,7 @@
             android:id="@+id/txt_create_channel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Create channel"
+            android:text="@string/tvCreateChannel"
             android:layout_marginTop="10dp"
             android:textAllCaps="true"
             android:textSize="16dp"

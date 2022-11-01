@@ -87,7 +87,7 @@ public class AccountActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()){
-                    Toast.makeText(AccountActivity.this, "User have a channel", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AccountActivity.this, getString(R.string.toastUserHaveChannel), Toast.LENGTH_SHORT).show();
                 }
                 else {
                     showDialogue();
@@ -121,10 +121,10 @@ public class AccountActivity extends AppCompatActivity {
                 if (name.isEmpty() || description.isEmpty()){
 
                     if (name.isEmpty()){
-                        Toast.makeText(AccountActivity.this, "Fill required field name", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AccountActivity.this, getString(R.string.toastRequiredName), Toast.LENGTH_SHORT).show();
                     }
                     else{
-                        Toast.makeText(AccountActivity.this, "Fill required field description", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AccountActivity.this, getString(R.string.toastRequiredDescription), Toast.LENGTH_SHORT).show();
                     }
                 }
                 else {
@@ -138,8 +138,8 @@ public class AccountActivity extends AppCompatActivity {
 
     private void createNewChannel(String name, String description, Dialog dialog) {
         ProgressDialog progressDialog = new ProgressDialog(AccountActivity.this);
-        progressDialog.setTitle("New Channel");
-        progressDialog.setMessage("Creating ...");
+        progressDialog.setTitle(getString(R.string.progressDialogTitle));
+        progressDialog.setMessage(getString(R.string.progressDialogMessage));
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
 
@@ -158,7 +158,7 @@ public class AccountActivity extends AppCompatActivity {
                 if (task.isSuccessful()){
                     progressDialog.dismiss();
                     dialog.dismiss();
-                    Toast.makeText(AccountActivity.this, name + " channel has been created", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AccountActivity.this, getString(R.string.toastChannelCreated, name), Toast.LENGTH_SHORT).show();
                 }
                 else{
                     progressDialog.dismiss();

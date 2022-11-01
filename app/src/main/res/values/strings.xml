@@ -20,4 +20,21 @@
     <string name="tvLiked_videos">Liked videos</string>
     <string name="tvPlaylist">PlayList</string>
     <string name="tvNew_playlist">New PlayList</string>
+    <string name="tvUserChannelName">Username</string>
+    <string name="tvEmail">email</string>
+    <string name="tvYourChannel">Your account</string>
+    <string name="tvSettings">Settings</string>
+    <string name="tvHelpFeedback">Help and feedback</string>
+    <string name="tvYoutubeClone">Use Youtube clone As ......</string>
+    <string name="tvInputChannelName">Channel name</string>
+    <string name="tvDescription">Description</string>
+    <string name="tvTerms">By creating new channel accept our terms and conditions</string>
+    <string name="tvCreateChannel">Create channel</string>
+    <string name="tvGoogleSignIn">Continue with google</string>
+    <string name="toastRequiredName">Fill required field name</string>
+    <string name="toastRequiredDescription">Fill required field description</string>
+    <string name="toastUserHaveChannel">User have a channel</string>
+    <string name="progressDialogTitle">New Channel</string>
+    <string name="progressDialogMessage">Creating ...</string>
+    <string name="toastChannelCreated">%s channel has been created</string>
 </resources>

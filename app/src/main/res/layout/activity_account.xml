@@ -30,7 +30,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Username"
+            android:text="@string/tvUserChannelName"
             android:textSize="18sp"
             android:layout_toEndOf="@+id/user_profile_image"
             android:textColor="@color/black"
@@ -40,7 +40,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="email"
+            android:text="@string/tvEmail"
             android:textColor="@color/colorSecondaryText"
             android:layout_below="@id/user_channel_name"
             android:layout_marginStart="10dp"
@@ -75,7 +75,7 @@
             android:drawablePadding="28dp"
             android:drawableTint="@color/black"
             android:padding="5dp"
-            android:text="Your account"
+            android:text="@string/tvYourChannel"
             android:textColor="@color/black"
             android:textSize="18dp" />
 
@@ -88,7 +88,7 @@
             android:drawablePadding="28dp"
             android:drawableTint="@color/black"
             android:padding="5dp"
-            android:text="Settings"
+            android:text="@string/tvSettings"
             android:textColor="@color/black"
             android:textSize="18dp" />
 
@@ -101,7 +101,7 @@
             android:drawableStart="@drawable/download"
             android:drawablePadding="28dp"
             android:padding="5dp"
-            android:text="Help and feedback"
+            android:text="@string/tvHelpFeedback"
             android:textColor="@color/black"
             android:textSize="18dp" />
 
