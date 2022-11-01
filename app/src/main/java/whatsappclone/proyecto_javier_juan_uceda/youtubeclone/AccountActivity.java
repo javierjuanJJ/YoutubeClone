@@ -4,8 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,6 +62,44 @@ public class AccountActivity extends AppCompatActivity {
         reference = FirebaseDatabase.getInstance().getReference();
 
         getData();
+        txtYourChannerl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                checkUserHaveChannel();
+            }
+
+
+        });
+
+    }
+
+    private void checkUserHaveChannel() {
+        reference.child("Channel").child(user.getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()){
+                    Toast.makeText(AccountActivity.this, "User have a channel", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    showDialogue();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(AccountActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void showDialogue() {
+        Dialog dialog = new Dialog(AccountActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.channel_dialog);
+        dialog.setCancelable(true);
+        dialog.setCanceledOnTouchOutside(true);
+
+        dialog.show();
     }
 
     private void getData() {
