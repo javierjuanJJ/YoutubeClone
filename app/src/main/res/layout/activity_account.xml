@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AccountActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/toolbar"
+        app:title="Account"/>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
+        android:padding="10dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_launcher_background"
+            app:civ_border_width="0.5dp"
+            app:civ_border_color="@color/white"
+            android:id="@+id/user_profile_image"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Username"
+            android:textSize="18sp"
+            android:layout_toEndOf="@+id/user_profile_image"
+            android:textColor="@color/black"
+            android:layout_marginStart="10dp"
+            android:id="@+id/user_channel_name"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="email"
+            android:textColor="@color/colorSecondaryText"
+            android:layout_below="@id/user_channel_name"
+            android:layout_marginStart="10dp"
+            android:textSize="14sp"
+            android:id="@+id/email"/>
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:backgroundTint="@color/black"
+        android:layout_below="@id/relativeLayout"
+        android:id="@+id/view"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/Widget.Design.BottomNavigationView"
+        android:id="@+id/center"
+        android:layout_below="@id/view"
+        android:padding="8dp"
+        android:orientation="vertical"
+        android:layout_marginTop="8dp">
+
+        <TextView
+            android:id="@+id/txtYourChannerl"
+            android:background="@drawable/ripple_effect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/history"
+            android:drawablePadding="28dp"
+            android:drawableTint="@color/black"
+            android:padding="5dp"
+            android:text="Your account"
+            android:textColor="@color/black"
+            android:textSize="18dp" />
+
+        <TextView
+            android:id="@+id/txtSettings"
+            android:background="@drawable/ripple_effect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/your_video"
+            android:drawablePadding="28dp"
+            android:drawableTint="@color/black"
+            android:padding="5dp"
+            android:text="Settings"
+            android:textColor="@color/black"
+            android:textSize="18dp" />
+
+        <TextView
+            android:id="@+id/txtHelp"
+            android:background="@drawable/ripple_effect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableTint="@color/black"
+            android:drawableStart="@drawable/download"
+            android:drawablePadding="28dp"
+            android:padding="5dp"
+            android:text="Help and feedback"
+            android:textColor="@color/black"
+            android:textSize="18dp" />
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>

@@ -80,10 +80,12 @@ public class MainActivity extends AppCompatActivity implements View.OnApplyWindo
             @Override
             public void onClick(View view) {
                 if (user != null) {
-                    Toast.makeText(MainActivity.this, "User alreasy sign in", Toast.LENGTH_SHORT).show();
-
+                    // Toast.makeText(MainActivity.this, "User alreasy sign in", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(MainActivity.this, AccountActivity.class));
+                    getProfileImage();
                 }
                 else {
+                    userProfileImage.setImageResource(R.drawable.ic_launcher_background);
                     showDialogue();
                 }
             }
