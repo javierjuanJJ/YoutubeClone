@@ -43,6 +43,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 
+import whatsappclone.proyecto_javier_juan_uceda.youtubeclone.Constants.FieldsConstants;
 import whatsappclone.proyecto_javier_juan_uceda.youtubeclone.fragments.ExploreFragment;
 import whatsappclone.proyecto_javier_juan_uceda.youtubeclone.fragments.HomeFragment;
 import whatsappclone.proyecto_javier_juan_uceda.youtubeclone.fragments.LibraryFragment;
@@ -153,11 +154,11 @@ public class MainActivity extends AppCompatActivity implements View.OnApplyWindo
                             FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
                             HashMap<String, Object> map = new HashMap<>();
-                            map.put("username", account.getDisplayName());
-                            map.put("email", account.getEmail());
-                            map.put("profile", String.valueOf(account.getPhotoUrl()));
-                            map.put("uid", firebaseUser.getUid());
-                            map.put("search", account.getDisplayName().toLowerCase());
+                            map.put(FieldsConstants.USERNAME_FIELD, account.getDisplayName());
+                            map.put(FieldsConstants.EMAIL_FIELD, account.getEmail());
+                            map.put(FieldsConstants.PROFILE_FIELD, String.valueOf(account.getPhotoUrl()));
+                            map.put(FieldsConstants.UID_FIELD, firebaseUser.getUid());
+                            map.put(FieldsConstants.SEARCH_FIELD, account.getDisplayName().toLowerCase());
 
                             DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users");
                             reference.child(firebaseUser.getUid()).setValue(map);
@@ -189,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements View.OnApplyWindo
                 Toast.makeText(this, "notification", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.search:
-                Toast.makeText(this, "search", Toast.LENGTH_SHORT).show();break;
+                Toast.makeText(this, FieldsConstants.SEARCH_FIELD, Toast.LENGTH_SHORT).show();break;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -249,7 +250,7 @@ public class MainActivity extends AppCompatActivity implements View.OnApplyWindo
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()){
-                    String profilePhotoUrl = snapshot.child("profile").getValue().toString();
+                    String profilePhotoUrl = snapshot.child(FieldsConstants.PROFILE_FIELD).getValue().toString();
 
                     Picasso.get().load(profilePhotoUrl).placeholder(R.drawable.ic_launcher_background).into(userProfileImage);
                 }

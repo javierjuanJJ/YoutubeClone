@@ -29,6 +29,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import whatsappclone.proyecto_javier_juan_uceda.youtubeclone.Constants.FieldsConstants;
 
 public class AccountActivity extends AppCompatActivity {
 
@@ -83,7 +84,7 @@ public class AccountActivity extends AppCompatActivity {
     }
 
     private void checkUserHaveChannel() {
-        reference.child("Channel").child(user.getUid()).addValueEventListener(new ValueEventListener() {
+        reference.child(FieldsConstants.CHANNEL_FIELD).child(user.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()){
@@ -146,13 +147,13 @@ public class AccountActivity extends AppCompatActivity {
         String date = DateFormat.getDateInstance().format(new Date());
 
         HashMap<String, Object> map = new HashMap<>();
-        map.put("channel_name", name);
-        map.put("description", description);
-        map.put("joined", date);
-        map.put("uid", user.getUid());
-        map.put("channel_logo", profileValue );
+        map.put(FieldsConstants.CHANNEL_NAME_FIELD, name);
+        map.put(FieldsConstants.DESCRIPTION_FIELD, description);
+        map.put(FieldsConstants.JOINED_FIELD, date);
+        map.put(FieldsConstants.UID_FIELD, user.getUid());
+        map.put(FieldsConstants.CHANNEL_LOGO_FIELD, profileValue );
 
-        reference.child("Channel").child(user.getUid()).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+        reference.child(FieldsConstants.CHANNEL_FIELD).child(user.getUid()).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()){
@@ -175,9 +176,9 @@ public class AccountActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()){
-                    String usernameValue = snapshot.child("username").getValue().toString();
-                    String emailValue = snapshot.child("email").getValue().toString();
-                    profileValue = snapshot.child("profile").getValue().toString();
+                    String usernameValue = snapshot.child(FieldsConstants.USERNAME_FIELD).getValue().toString();
+                    String emailValue = snapshot.child(FieldsConstants.EMAIL_FIELD).getValue().toString();
+                    profileValue = snapshot.child(FieldsConstants.PROFILE_FIELD).getValue().toString();
 
                     username.setText(usernameValue);
                     email.setText(emailValue);
