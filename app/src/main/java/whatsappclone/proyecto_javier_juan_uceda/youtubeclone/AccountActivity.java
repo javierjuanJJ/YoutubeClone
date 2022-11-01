@@ -110,7 +110,7 @@ public class AccountActivity extends AppCompatActivity {
 
         EditText input_channel_name = dialog.findViewById(R.id.input_channel_name);
         EditText input_description = dialog.findViewById(R.id.input_description);
-        EditText txt_create_channel = dialog.findViewById(R.id.txt_create_channel);
+        TextView txt_create_channel = dialog.findViewById(R.id.txt_create_channel);
 
         txt_create_channel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,7 +119,13 @@ public class AccountActivity extends AppCompatActivity {
                 String description = input_description.getText().toString();
 
                 if (name.isEmpty() || description.isEmpty()){
-                    Toast.makeText(AccountActivity.this, "Fill required fields", Toast.LENGTH_SHORT).show();
+
+                    if (name.isEmpty()){
+                        Toast.makeText(AccountActivity.this, "Fill required field name", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        Toast.makeText(AccountActivity.this, "Fill required field description", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 else {
                     createNewChannel(name, description, dialog);

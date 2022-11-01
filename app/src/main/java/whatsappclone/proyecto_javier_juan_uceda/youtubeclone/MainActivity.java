@@ -96,7 +96,9 @@ public class MainActivity extends AppCompatActivity implements View.OnApplyWindo
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         bottomNavigationView.setSelectedItemId(R.id.home);
 
-        getProfileImage();
+        if (user != null) {
+            getProfileImage();
+        }
 
     }
 
@@ -119,18 +121,17 @@ public class MainActivity extends AppCompatActivity implements View.OnApplyWindo
 
     }
 
-
-
-    private GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id))
-            .requestEmail()
-            .build();
-
-    private GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
     private static final int RC_SIGN_IN = 100;
 
     private void signIn() {
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
         Intent intent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(intent, RC_SIGN_IN);
     }
