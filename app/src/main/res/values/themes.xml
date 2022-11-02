@@ -15,4 +15,10 @@
 
         <!-- Customize your theme here. -->
     </style>
+
+
+    <style name="Dashboard" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="iconTint">#FFFFFF</item>
+    </style>
+
 </resources>

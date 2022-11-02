@@ -6,16 +6,20 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowInsets;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,6 +32,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -44,6 +49,7 @@ import com.squareup.picasso.Picasso;
 import java.util.HashMap;
 
 import whatsappclone.proyecto_javier_juan_uceda.youtubeclone.Constants.FieldsConstants;
+import whatsappclone.proyecto_javier_juan_uceda.youtubeclone.fragments.ChannelDashboardFragment;
 import whatsappclone.proyecto_javier_juan_uceda.youtubeclone.fragments.ExploreFragment;
 import whatsappclone.proyecto_javier_juan_uceda.youtubeclone.fragments.HomeFragment;
 import whatsappclone.proyecto_javier_juan_uceda.youtubeclone.fragments.LibraryFragment;
@@ -57,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements View.OnApplyWindo
     private ImageView userProfileImage;
     private FirebaseAuth auth;
     private FirebaseUser user;
+    Fragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements View.OnApplyWindo
         frameLayout = findViewById(R.id.frame_layout);
 
         userProfileImage = findViewById(R.id.user_profile_image);
+        appBarLayout = findViewById(R.id.appBar);
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
         userProfileImage.setOnClickListener(new View.OnClickListener() {
@@ -123,6 +131,7 @@ public class MainActivity extends AppCompatActivity implements View.OnApplyWindo
     }
 
     private static final int RC_SIGN_IN = 100;
+    private AppBarLayout appBarLayout;
 
     private void signIn() {
 
@@ -132,6 +141,8 @@ public class MainActivity extends AppCompatActivity implements View.OnApplyWindo
                 .build();
 
         GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        showDialogue();
 
         Intent intent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(intent, RC_SIGN_IN);
@@ -198,6 +209,8 @@ public class MainActivity extends AppCompatActivity implements View.OnApplyWindo
     }
 
     private void selectedFragment(Fragment fragment){
+        setStatusColor("#FFFFF");
+        appBarLayout.setVisibility(View.VISIBLE);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.frame_layout, fragment);
         fragmentTransaction.commit();
@@ -261,6 +274,32 @@ public class MainActivity extends AppCompatActivity implements View.OnApplyWindo
                 Toast.makeText(MainActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void showFragment(){
+        String type = getIntent().getStringExtra("type");
+        if (type != null) {
+            switch (type){
+                case "channel":
+                    setStatusColor("#99FF0080");
+                    appBarLayout.setVisibility(View.GONE);
+                    fragment = ChannelDashboardFragment.newInstance();
+                break;
+            }
+            if (fragment != null){
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.frame_layout,fragment).commit();
+            }
+            else {
+                Toast.makeText(this, "Something went bad", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void setStatusColor(String color){
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(Color.parseColor(color));
     }
 
 }

@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -88,7 +89,10 @@ public class AccountActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()){
-                    Toast.makeText(AccountActivity.this, getString(R.string.toastUserHaveChannel), Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(AccountActivity.this, getString(R.string.toastUserHaveChannel), Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(AccountActivity.this, MainActivity.class);
+                    intent.putExtra("type","channel");
+                    startActivity(intent);
                 }
                 else {
                     showDialogue();
