@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -110,6 +111,28 @@ public class MainActivity extends AppCompatActivity implements View.OnApplyWindo
         }
 
     }
+
+    private void showPublishContentDialogue() {
+        Dialog dialog = new Dialog(MainActivity.this);
+        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.upload_dialogue);
+        dialog.setCanceledOnTouchOutside(true);
+
+        TextView txt_upload_video = dialog.findViewById(R.id.txt_upload_video);
+        TextView txt_make_post = dialog.findViewById(R.id.txt_make_post);
+        TextView txt_poll = dialog.findViewById(R.id.txt_poll);
+
+        txt_upload_video.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, PublishContentActivity.class);
+                intent.putExtra("type","video");
+                startActivity(intent);
+            }
+        });
+    }
+
+
 
     private void showDialogue() {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PublishContentActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/videolYt">
+
+        <TextView
+            android:id="@+id/txt_upload_video"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Upload"
+            android:background="@drawable/button_bg"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_alignParentEnd="true"
+            android:padding="5dp"
+            android:minWidth="77dp"
+            android:gravity="center"
+            android:fontFamily="sans-serif"/>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_launcher_foreground"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="8dp"
+            android:id="@+id/user_profile_image"
+            android:adjustViewBounds="true"/>
+
+        <VideoView
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            android:id="@+id/videoView"
+            android:layout_below="@id/user_profile_image"
+            android:layout_margin="5dp"
+            android:padding="5dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@id/videoView"
+            android:padding="5dp">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:hint="Title"
+                android:minHeight="150dp"
+                android:gravity="start"
+                android:background="@drawable/edittext_bg"
+                android:layout_marginTop="5dp"
+                android:textStyle="normal"
+                android:textSize="16sp"
+                android:fontFamily="sans-serif"
+                android:textColor="@color/black"
+                android:autoLink="email|web|phone"
+                android:linksClickable="true"
+                android:textColorLink="@color/purple_700"
+                android:id="@+id/inputVideoDescription"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:hint="Title"
+                android:background="@drawable/edittext_bg"
+                android:layout_marginTop="5dp"
+                android:textStyle="normal"
+                android:textSize="16sp"
+                android:fontFamily="sans-serif"
+                android:textColor="@color/black"
+                android:autoLink="email|web|phone"
+                android:id="@+id/inputVideoTitle"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:hint="Tag"
+                android:minHeight="150dp"
+                android:gravity="start"
+                android:background="@drawable/edittext_bg"
+                android:layout_marginTop="5dp"
+                android:textStyle="normal"
+                android:textSize="16sp"
+                android:fontFamily="sans-serif"
+                android:textColor="@color/black"
+                android:autoLink="email|web|phone"
+                android:id="@+id/inputVideoTag"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Choose Playlist"
+                android:textColor="@color/purple_700"
+                android:layout_marginTop="10dp"
+                android:textSize="16sp"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:id="@+id/choosePlayList"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>
