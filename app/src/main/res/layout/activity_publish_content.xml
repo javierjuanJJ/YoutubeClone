@@ -32,8 +32,9 @@
             android:src="@drawable/ic_launcher_foreground"
             android:layout_marginTop="10dp"
             android:layout_marginStart="8dp"
-            android:id="@+id/user_profile_image"
-            android:adjustViewBounds="true"/>
+            android:id="@+id/user_profile_image" />
+<!--            android:adjustViewBounds="true"-->
+
 
         <VideoView
             android:layout_width="match_parent"

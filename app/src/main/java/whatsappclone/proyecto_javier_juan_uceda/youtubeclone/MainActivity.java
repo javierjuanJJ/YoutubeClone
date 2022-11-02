@@ -143,6 +143,7 @@ public class MainActivity extends AppCompatActivity implements View.OnApplyWindo
                 startActivity(intent);
             }
         });
+        dialog.show();
     }
 
 
@@ -265,7 +266,7 @@ public class MainActivity extends AppCompatActivity implements View.OnApplyWindo
     }
 
     private void selectedFragment(Fragment fragment){
-        setStatusColor("#FFFFF");
+        setStatusColor("#FFFFFF");
         appBarLayout.setVisibility(View.VISIBLE);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.frame_layout, fragment);
