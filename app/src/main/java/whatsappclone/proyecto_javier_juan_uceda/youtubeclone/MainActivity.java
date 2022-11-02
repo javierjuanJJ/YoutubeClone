@@ -5,14 +5,18 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,6 +27,7 @@ import android.view.WindowInsets;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -66,6 +71,8 @@ public class MainActivity extends AppCompatActivity implements View.OnApplyWindo
     private FirebaseUser user;
     Fragment fragment;
 
+    private static final int PERMISSION = 101;
+    private static final int PICK_VIDEO = 102;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,6 +93,9 @@ public class MainActivity extends AppCompatActivity implements View.OnApplyWindo
         appBarLayout = findViewById(R.id.appBar);
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
+
+        checkPermission();
+
         userProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -125,8 +135,11 @@ public class MainActivity extends AppCompatActivity implements View.OnApplyWindo
         txt_upload_video.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, PublishContentActivity.class);
-                intent.putExtra("type","video");
+                //Intent intent = new Intent(MainActivity.this, PublishContentActivity.class);
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("video/*");
+                startActivityForResult(Intent.createChooser(intent,"Select video"), PICK_VIDEO);
+                //intent.putExtra("type","video");
                 startActivity(intent);
             }
         });
@@ -174,42 +187,62 @@ public class MainActivity extends AppCompatActivity implements View.OnApplyWindo
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RC_SIGN_IN) {
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+
+        switch (requestCode){
+            case RC_SIGN_IN :
+
+                if (resultCode == RESULT_OK && data != null) {
+                    Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
 
 
-            try {
-                GoogleSignInAccount account = task.getResult(ApiException.class);
-                AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
-                auth.signInWithCredential(credential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()){
-                            FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                    try {
+                        GoogleSignInAccount account = task.getResult(ApiException.class);
+                        AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
+                        auth.signInWithCredential(credential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()){
+                                    FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-                            HashMap<String, Object> map = new HashMap<>();
-                            map.put(FieldsConstants.USERNAME_FIELD, account.getDisplayName());
-                            map.put(FieldsConstants.EMAIL_FIELD, account.getEmail());
-                            map.put(FieldsConstants.PROFILE_FIELD, String.valueOf(account.getPhotoUrl()));
-                            map.put(FieldsConstants.UID_FIELD, firebaseUser.getUid());
-                            map.put(FieldsConstants.SEARCH_FIELD, account.getDisplayName().toLowerCase());
+                                    HashMap<String, Object> map = new HashMap<>();
+                                    map.put(FieldsConstants.USERNAME_FIELD, account.getDisplayName());
+                                    map.put(FieldsConstants.EMAIL_FIELD, account.getEmail());
+                                    map.put(FieldsConstants.PROFILE_FIELD, String.valueOf(account.getPhotoUrl()));
+                                    map.put(FieldsConstants.UID_FIELD, firebaseUser.getUid());
+                                    map.put(FieldsConstants.SEARCH_FIELD, account.getDisplayName().toLowerCase());
 
-                            DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users");
-                            reference.child(firebaseUser.getUid()).setValue(map);
+                                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users");
+                                    reference.child(firebaseUser.getUid()).setValue(map);
 
-                        }
-                        else {
-                            Toast.makeText(MainActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                        }
+                                }
+                                else {
+                                    Toast.makeText(MainActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    } catch (ApiException e) {
+                        Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
-                });
-            } catch (ApiException e) {
-                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
 
+                }
+                break;
+            case PICK_VIDEO:
+                if (resultCode == RESULT_OK && data != null) {
+                    videoUri = data.getData();
+                    Intent intent = new Intent(MainActivity.this, PublishContentActivity.class);
+                    intent.putExtra("type", "video");
+                    intent.setData(videoUri);
+                    startActivity(intent);
+                }
+                break;
         }
 
+
+
     }
+
+    Uri videoUri;
+    MediaController mediaController;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -260,7 +293,7 @@ public class MainActivity extends AppCompatActivity implements View.OnApplyWindo
                 selectedFragment(homeFragment);
                 break;
             case R.id.publish:
-                Toast.makeText(this, getString(R.string.toastAddAVideo), Toast.LENGTH_SHORT).show();
+                showPublishContentDialogue();
                 break;
             case R.id.explore:
                 ExploreFragment exploreFragment = new ExploreFragment();
@@ -323,6 +356,18 @@ public class MainActivity extends AppCompatActivity implements View.OnApplyWindo
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(Color.parseColor(color));
+    }
+
+
+    private void checkPermission(){
+        if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PERMISSION
+        ) {
+
+            ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION);
+
+            } else {
+            Log.d(MainActivity.class.getSimpleName() + " permissions", "checkPermission(): Permision granted");
+        }
     }
 
 }
