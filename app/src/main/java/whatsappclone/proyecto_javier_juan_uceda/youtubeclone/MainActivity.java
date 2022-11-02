@@ -1,15 +1,5 @@
 package whatsappclone.proyecto_javier_juan_uceda.youtubeclone;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
@@ -30,6 +20,16 @@ import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements View.OnApplyWindo
 
     private static final int PERMISSION = 101;
     private static final int PICK_VIDEO = 102;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,8 +104,7 @@ public class MainActivity extends AppCompatActivity implements View.OnApplyWindo
                     // Toast.makeText(MainActivity.this, "User alreasy sign in", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(MainActivity.this, AccountActivity.class));
                     getProfileImage();
-                }
-                else {
+                } else {
                     userProfileImage.setImageResource(R.drawable.ic_launcher_background);
                     showDialogue();
                 }
@@ -138,14 +138,13 @@ public class MainActivity extends AppCompatActivity implements View.OnApplyWindo
                 //Intent intent = new Intent(MainActivity.this, PublishContentActivity.class);
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("video/*");
-                startActivityForResult(Intent.createChooser(intent,"Select video"), PICK_VIDEO);
+                startActivityForResult(Intent.createChooser(intent, "Select video"), PICK_VIDEO);
                 //intent.putExtra("type","video");
                 startActivity(intent);
             }
         });
         dialog.show();
     }
-
 
 
     private void showDialogue() {
@@ -189,8 +188,8 @@ public class MainActivity extends AppCompatActivity implements View.OnApplyWindo
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        switch (requestCode){
-            case RC_SIGN_IN :
+        switch (requestCode) {
+            case RC_SIGN_IN:
 
                 if (resultCode == RESULT_OK && data != null) {
                     Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
@@ -202,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements View.OnApplyWindo
                         auth.signInWithCredential(credential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()){
+                                if (task.isSuccessful()) {
                                     FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
                                     HashMap<String, Object> map = new HashMap<>();
@@ -215,8 +214,7 @@ public class MainActivity extends AppCompatActivity implements View.OnApplyWindo
                                     DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users");
                                     reference.child(firebaseUser.getUid()).setValue(map);
 
-                                }
-                                else {
+                                } else {
                                     Toast.makeText(MainActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             }
@@ -239,7 +237,6 @@ public class MainActivity extends AppCompatActivity implements View.OnApplyWindo
         }
 
 
-
     }
 
     Uri videoUri;
@@ -253,19 +250,20 @@ public class MainActivity extends AppCompatActivity implements View.OnApplyWindo
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.notification:
                 Toast.makeText(this, "notification", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.search:
-                Toast.makeText(this, FieldsConstants.SEARCH_FIELD, Toast.LENGTH_SHORT).show();break;
+                Toast.makeText(this, FieldsConstants.SEARCH_FIELD, Toast.LENGTH_SHORT).show();
+                break;
             default:
                 return super.onOptionsItemSelected(item);
         }
         return false;
     }
 
-    private void selectedFragment(Fragment fragment){
+    private void selectedFragment(Fragment fragment) {
         setStatusColor("#FFFFFF");
         appBarLayout.setVisibility(View.VISIBLE);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -288,7 +286,7 @@ public class MainActivity extends AppCompatActivity implements View.OnApplyWindo
      */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.home:
                 HomeFragment homeFragment = new HomeFragment();
                 selectedFragment(homeFragment);
@@ -314,12 +312,12 @@ public class MainActivity extends AppCompatActivity implements View.OnApplyWindo
         return false;
     }
 
-    private void getProfileImage(){
+    private void getProfileImage() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users");
         reference.child(user.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()){
+                if (snapshot.exists()) {
                     String profilePhotoUrl = snapshot.child(FieldsConstants.PROFILE_FIELD).getValue().toString();
 
                     Picasso.get().load(profilePhotoUrl).placeholder(R.drawable.ic_launcher_background).into(userProfileImage);
@@ -333,40 +331,36 @@ public class MainActivity extends AppCompatActivity implements View.OnApplyWindo
         });
     }
 
-    private void showFragment(){
+    private void showFragment() {
         String type = getIntent().getStringExtra("type");
         if (type != null) {
-            switch (type){
+            switch (type) {
                 case "channel":
                     setStatusColor("#99FF0080");
                     appBarLayout.setVisibility(View.GONE);
                     fragment = ChannelDashboardFragment.newInstance();
-                break;
+                    break;
             }
-            if (fragment != null){
+            if (fragment != null) {
                 FragmentManager fragmentManager = getSupportFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.frame_layout,fragment).commit();
-            }
-            else {
+                fragmentManager.beginTransaction().replace(R.id.frame_layout, fragment).commit();
+            } else {
                 Toast.makeText(this, "Something went bad", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-    private void setStatusColor(String color){
+    private void setStatusColor(String color) {
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(Color.parseColor(color));
     }
 
 
-    private void checkPermission(){
-        if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PERMISSION
-        ) {
-
-            ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION);
-
-            } else {
+    private void checkPermission() {
+        if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PERMISSION) {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION);
+        } else {
             Log.d(MainActivity.class.getSimpleName() + " permissions", "checkPermission(): Permision granted");
         }
     }
