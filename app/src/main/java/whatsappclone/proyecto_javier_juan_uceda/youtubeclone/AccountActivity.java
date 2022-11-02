@@ -31,6 +31,7 @@ import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import whatsappclone.proyecto_javier_juan_uceda.youtubeclone.Constants.FieldsConstants;
+import whatsappclone.proyecto_javier_juan_uceda.youtubeclone.Constants.IntentConstants;
 
 public class AccountActivity extends AppCompatActivity {
 
@@ -91,7 +92,7 @@ public class AccountActivity extends AppCompatActivity {
                 if (snapshot.exists()){
                    // Toast.makeText(AccountActivity.this, getString(R.string.toastUserHaveChannel), Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(AccountActivity.this, MainActivity.class);
-                    intent.putExtra("type","channel");
+                    intent.putExtra(IntentConstants.TYPE_INTENT_KEY, IntentConstants.CHANNEL_INTENT_KEY);
                     startActivity(intent);
                 }
                 else {

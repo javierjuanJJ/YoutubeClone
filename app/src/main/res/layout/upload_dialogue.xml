@@ -38,7 +38,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Upload Video"
+                    android:text="@string/tvUploadVideo"
                     android:textSize="17sp"
                     android:fontFamily="sans-serif"
                     android:textColor="#212121"
@@ -48,7 +48,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Share your content with our large community"
+                    android:text="@string/tvDialogue"
                     android:textSize="13sp"
                     android:fontFamily="sans-serif"
                     android:textColor="#212121"
@@ -82,7 +82,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Make post"
+                    android:text="@string/tvMakePost"
                     android:textSize="17sp"
                     android:fontFamily="sans-serif"
                     android:textColor="#212121"
@@ -92,7 +92,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Share interesting and entertaining posts to your subscribers"
+                    android:text="@string/tvDialogueUpload"
                     android:textSize="13sp"
                     android:fontFamily="sans-serif"
                     android:textColor="#212121"
@@ -126,7 +126,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Release a poll"
+                    android:text="@string/tvReleaseAPoll"
                     android:textSize="17sp"
                     android:fontFamily="sans-serif"
                     android:textColor="#212121"
@@ -136,7 +136,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Create a simple poll with your favourite questions"
+                    android:text="@string/tvPool"
                     android:textSize="13sp"
                     android:fontFamily="sans-serif"
                     android:textColor="#212121"

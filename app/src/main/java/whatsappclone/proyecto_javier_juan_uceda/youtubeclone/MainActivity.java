@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.telephony.mbms.StreamingServiceInfo;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -55,6 +56,7 @@ import com.squareup.picasso.Picasso;
 import java.util.HashMap;
 
 import whatsappclone.proyecto_javier_juan_uceda.youtubeclone.Constants.FieldsConstants;
+import whatsappclone.proyecto_javier_juan_uceda.youtubeclone.Constants.IntentConstants;
 import whatsappclone.proyecto_javier_juan_uceda.youtubeclone.fragments.ChannelDashboardFragment;
 import whatsappclone.proyecto_javier_juan_uceda.youtubeclone.fragments.ExploreFragment;
 import whatsappclone.proyecto_javier_juan_uceda.youtubeclone.fragments.HomeFragment;
@@ -138,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements View.OnApplyWindo
                 //Intent intent = new Intent(MainActivity.this, PublishContentActivity.class);
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("video/*");
-                startActivityForResult(Intent.createChooser(intent, "Select video"), PICK_VIDEO);
+                startActivityForResult(Intent.createChooser(intent, getString(R.string.toastSelectVideo)), PICK_VIDEO);
                 //intent.putExtra("type","video");
                 startActivity(intent);
             }
@@ -211,7 +213,7 @@ public class MainActivity extends AppCompatActivity implements View.OnApplyWindo
                                     map.put(FieldsConstants.UID_FIELD, firebaseUser.getUid());
                                     map.put(FieldsConstants.SEARCH_FIELD, account.getDisplayName().toLowerCase());
 
-                                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users");
+                                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child(FieldsConstants.USERS_FIELD);
                                     reference.child(firebaseUser.getUid()).setValue(map);
 
                                 } else {
@@ -229,7 +231,7 @@ public class MainActivity extends AppCompatActivity implements View.OnApplyWindo
                 if (resultCode == RESULT_OK && data != null) {
                     videoUri = data.getData();
                     Intent intent = new Intent(MainActivity.this, PublishContentActivity.class);
-                    intent.putExtra("type", "video");
+                    intent.putExtra(IntentConstants.TYPE_INTENT_KEY, IntentConstants.VIDEO_INTENT_KEY);
                     intent.setData(videoUri);
                     startActivity(intent);
                 }
@@ -313,7 +315,7 @@ public class MainActivity extends AppCompatActivity implements View.OnApplyWindo
     }
 
     private void getProfileImage() {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users");
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child(FieldsConstants.USERS_FIELD);
         reference.child(user.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -332,10 +334,10 @@ public class MainActivity extends AppCompatActivity implements View.OnApplyWindo
     }
 
     private void showFragment() {
-        String type = getIntent().getStringExtra("type");
+        String type = getIntent().getStringExtra(IntentConstants.TYPE_INTENT_KEY);
         if (type != null) {
             switch (type) {
-                case "channel":
+                case IntentConstants.CHANNEL_INTENT_KEY:
                     setStatusColor("#99FF0080");
                     appBarLayout.setVisibility(View.GONE);
                     fragment = ChannelDashboardFragment.newInstance();
@@ -345,7 +347,7 @@ public class MainActivity extends AppCompatActivity implements View.OnApplyWindo
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.beginTransaction().replace(R.id.frame_layout, fragment).commit();
             } else {
-                Toast.makeText(this, "Something went bad", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.toastSomethingWrost), Toast.LENGTH_SHORT).show();
             }
         }
     }

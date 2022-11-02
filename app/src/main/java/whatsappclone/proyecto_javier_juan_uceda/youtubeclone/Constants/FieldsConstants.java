@@ -11,4 +11,5 @@ public class FieldsConstants {
    public static final String DESCRIPTION_FIELD = "description";
    public static final String JOINED_FIELD = "joined";
    public static final String CHANNEL_LOGO_FIELD = "channel_logo";
+   public static final String USERS_FIELD = "Users";
 }

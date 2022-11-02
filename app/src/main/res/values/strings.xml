@@ -37,4 +37,17 @@
     <string name="progressDialogTitle">New Channel</string>
     <string name="progressDialogMessage">Creating ...</string>
     <string name="toastChannelCreated">%s channel has been created</string>
+    <string name="toastSelectVideo">Select video</string>
+    <string name="toastSomethingWrost">Something went wrost</string>
+    <string name="tvUpload">Upload</string>
+    <string name="etDescription">Title</string>
+    <string name="etTitle">Title</string>
+    <string name="etTag">Tag</string>
+    <string name="tvChoosePlaylist">Choose Playlist</string>
+    <string name="tvUploadVideo">Upload Video</string>
+    <string name="tvDialogue">Share your content with our large community</string>
+    <string name="tvMakePost">Make post</string>
+    <string name="tvDialogueUpload">Share interesting and entertaining posts to your subscribers</string>
+    <string name="tvReleaseAPoll">Release a poll</string>
+    <string name="tvPool">Create a simple poll with your favourite questions</string>
 </resources>
