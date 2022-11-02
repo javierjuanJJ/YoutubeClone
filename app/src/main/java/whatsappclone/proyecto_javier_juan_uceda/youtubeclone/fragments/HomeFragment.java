@@ -16,6 +16,13 @@ public class HomeFragment extends Fragment {
         // Required empty public constructor
     }
 
+    public static HomeFragment newInstance() {
+        HomeFragment channelDashboardFragment = new HomeFragment();
+        Bundle args = new Bundle();
+        channelDashboardFragment.setArguments(args);
+        return channelDashboardFragment;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

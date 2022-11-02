@@ -40,7 +40,8 @@
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
-        <TableLayout
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#99FF0080"
@@ -76,7 +77,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="About"/>
-        </TableLayout>
+        </com.google.android.material.tabs.TabLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 
