@@ -109,6 +109,41 @@
                 android:gravity="center"
                 android:id="@+id/choosePlayList"/>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:orientation="vertical"
+                android:id="@+id/progressLyT"
+                android:visibility="visible">
+
+                <ProgressBar
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/progressBar"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:padding="5dp"
+                    android:backgroundTint="@color/black"
+                    android:indeterminate="false"
+                    android:background="@drawable/edittext_bg"
+                    android:indeterminateOnly="false"
+                    android:layout_marginTop="5dp"
+                    android:progressDrawable="@drawable/upload_progress_style"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="Progress text"
+                    android:layout_gravity="center"
+                    android:textColor="@color/black"
+                    android:fontFamily="sans-serif"
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/progress_text"/>
+
+            </LinearLayout>
+
+
         </LinearLayout>
 
     </RelativeLayout>

@@ -11,7 +11,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.MediaController;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -25,6 +27,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,11 +39,20 @@ import whatsappclone.proyecto_javier_juan_uceda.youtubeclone.Models.PlaylistMode
 public class PublishContentActivity extends AppCompatActivity {
 
     private VideoView videoView;
-    private String type;
+    private String type, selectedPlaylist;
+    private int videosCount;
     private Uri videoUri;
     private MediaController mediaController;
     private EditText chip;
-    private TextView txtUploadVideo, txtChoosePlaylist;
+    private TextView txtUploadVideo, txtChoosePlaylist, progressText;
+
+    private EditText inputVideoTitle, inputVideoDescription;
+    private LinearLayout progressLayout;
+    private ProgressBar progressBar;
+
+    private FirebaseUser user;
+    private DatabaseReference reference;
+    private StorageReference storageReference;
 
 
     @Override
@@ -52,6 +65,11 @@ public class PublishContentActivity extends AppCompatActivity {
 
     private void setUI() {
         videoView = findViewById(R.id.videoView);
+        inputVideoTitle = findViewById(R.id.inputVideoTitle);
+        inputVideoDescription = findViewById(R.id.input_description);
+        progressLayout = findViewById(R.id.progressLyT);
+        progressText = findViewById(R.id.progress_text);
+
         mediaController = new MediaController(PublishContentActivity.this);
         chip = findViewById(R.id.inputVideoTag);
         txtUploadVideo = findViewById(R.id.txt_upload_video);
@@ -64,6 +82,10 @@ public class PublishContentActivity extends AppCompatActivity {
             videoView.setMediaController(mediaController);
             videoView.start();
         }
+
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        reference = FirebaseDatabase.getInstance().getReference().child("Videos");
+        storageReference = FirebaseStorage.getInstance().getReference().child("Videos");
 
         txtChoosePlaylist.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,6 +116,8 @@ public class PublishContentActivity extends AppCompatActivity {
             @Override
             public void onItemClick(PlaylistModel model, PublishAdapter.OnItemClick listener) {
                 dialog.dismiss();
+                selectedPlaylist = model.getPlayListName();
+                videosCount = model.getVideos();
                 txtChoosePlaylist.setText("Playlist: " + model.getPlayListName());
             }
         });
@@ -119,7 +143,35 @@ public class PublishContentActivity extends AppCompatActivity {
             }
         });
         
+        txtUploadVideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String title = inputVideoTitle.getText().toString();
+                String description = inputVideoDescription.getText().toString();
+                //String tags = inputVideoTitle.getText().toString();
+            
+                if (title.isEmpty() || description.isEmpty()){
+                    if (title.isEmpty()){
+                        Toast.makeText(PublishContentActivity.this, "Fill title field", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Toast.makeText(PublishContentActivity.this, "Fill description field", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else if(txtChoosePlaylist.getText().toString().equals("Choose Playlist")){
+                    Toast.makeText(PublishContentActivity.this, "Please select playlist", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    uploadVideoToStorage(title, description);
+                }
+            }
+        });
+        
         dialog.show();
+    }
+
+    private void uploadVideoToStorage(String title, String description) {
+
     }
 
     private void showAllPlayLists(PublishAdapter adapter, ArrayList<PlaylistModel> list) {
