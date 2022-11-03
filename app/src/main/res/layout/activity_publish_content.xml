@@ -115,7 +115,7 @@
                 android:padding="5dp"
                 android:orientation="vertical"
                 android:id="@+id/progressLyT"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <ProgressBar
                     android:layout_width="match_parent"

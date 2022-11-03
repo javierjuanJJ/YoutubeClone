@@ -5,11 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.webkit.MimeTypeMap;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
@@ -19,6 +21,7 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -28,9 +31,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 import whatsappclone.proyecto_javier_juan_uceda.youtubeclone.Adapter.PublishAdapter;
@@ -86,6 +93,7 @@ public class PublishContentActivity extends AppCompatActivity {
         user = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference().child("Videos");
         storageReference = FirebaseStorage.getInstance().getReference().child("Videos");
+
 
         txtChoosePlaylist.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -171,7 +179,80 @@ public class PublishContentActivity extends AppCompatActivity {
     }
 
     private void uploadVideoToStorage(String title, String description) {
+        progressLayout.setVisibility(View.VISIBLE);
+        final StorageReference sRef = storageReference.child(user.getUid()).child(System.currentTimeMillis() + ","+getFileExtension(videoUri));
+        sRef.putFile(videoUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                sRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        String videoUrl = uri.toString();
 
+                        saveDataToFirebase(title, description, videoUrl);
+                    }
+                });
+            }
+        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                double progress = 108.0 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount();
+                progressBar.setProgress((int) progress);
+                progressText.setText("Uploading " + (int) progress + "%");
+
+            }
+        });
+    }
+
+    private void saveDataToFirebase(String title, String description, String videoUrl) {
+        String currentDate = DateFormat.getDateInstance().format(new Date());
+        String videoId = reference.push().getKey();
+        HashMap<String, Object> map = new HashMap<>();
+
+        map.put("videoId", videoId);
+        map.put("video_title", title);
+        //map.put("video_tag",tag);
+        map.put("playlist",selectedPlaylist);
+        map.put("video_url",videoUrl);
+        map.put("publisher", user.getUid());
+        map.put("date",currentDate);
+
+        reference.child(videoId).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()){
+                    progressLayout.setVisibility(View.GONE);
+                    Toast.makeText(PublishContentActivity.this, "Video uploaded", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(PublishContentActivity.this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                    finish();
+
+                    updateVideoCount();
+
+                }
+                else {
+                    progressLayout.setVisibility(View.GONE);
+                    Toast.makeText(PublishContentActivity.this, "Failed to upload", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        });
+    }
+
+    private void updateVideoCount() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Playlists");
+
+        int update = videosCount + 1;
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("videos", update);
+
+        reference.child(user.getUid()).child(selectedPlaylist).updateChildren(map);
+    }
+
+    private String getFileExtension(Uri uri){
+        ContentResolver contentResolver = getContentResolver();
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
     }
 
     private void showAllPlayLists(PublishAdapter adapter, ArrayList<PlaylistModel> list) {
