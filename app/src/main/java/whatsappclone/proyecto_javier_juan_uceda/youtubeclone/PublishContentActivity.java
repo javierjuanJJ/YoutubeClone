@@ -26,7 +26,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+
+import whatsappclone.proyecto_javier_juan_uceda.youtubeclone.Adapter.PublishAdapter;
+import whatsappclone.proyecto_javier_juan_uceda.youtubeclone.Models.PlaylistModel;
 
 public class PublishContentActivity extends AppCompatActivity {
 
@@ -79,10 +83,28 @@ public class PublishContentActivity extends AppCompatActivity {
         
         EditText input_playlist_name = dialog.findViewById(R.id.input_playlist_name);
         TextView txt_add = dialog.findViewById(R.id.txt_add);
+
+        ArrayList<PlaylistModel> list = new ArrayList<>();
+        PublishAdapter adapter;
+
         RecyclerView recyclerView = dialog.findViewById(R.id.recyclerView);
-        
+        recyclerView.setHasFixedSize(true);
+
+        adapter = new PublishAdapter(PublishContentActivity.this, list, new PublishAdapter.OnItemClick() {
+            @Override
+            public void onItemClick(PlaylistModel model, PublishAdapter.OnItemClick listener) {
+                dialog.dismiss();
+                txtChoosePlaylist.setText("Playlist: " + model.getPlayListName());
+            }
+        });
+
+        recyclerView.setAdapter(adapter);
+
+
         checkUserAlreadyHavePlaylist(recyclerView);
-        
+
+        showAllPlayLists(adapter, list);
+
         txt_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -98,6 +120,32 @@ public class PublishContentActivity extends AppCompatActivity {
         });
         
         dialog.show();
+    }
+
+    private void showAllPlayLists(PublishAdapter adapter, ArrayList<PlaylistModel> list) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Playlists");
+            reference.child(user.getUid()).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()){
+                        list.clear();
+                        for (DataSnapshot dataSnapshot :
+                                snapshot.getChildren()) {
+                            PlaylistModel model = dataSnapshot.getValue(PlaylistModel.class);
+                            list.add(model);
+                        }
+                        adapter.notifyDataSetChanged();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(PublishContentActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     private void createPlayList(String value) {
