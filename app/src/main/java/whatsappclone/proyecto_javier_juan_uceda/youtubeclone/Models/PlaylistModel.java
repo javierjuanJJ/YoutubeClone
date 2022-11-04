@@ -1,28 +1,28 @@
 package whatsappclone.proyecto_javier_juan_uceda.youtubeclone.Models;
 
 public class PlaylistModel {
-   private String playListName;
+   private String playlist_name;
    private String uid;
    private int videos;
 
    public PlaylistModel(String playListName, String uid, int videos) {
-      this.playListName = playListName;
+      this.playlist_name = playListName;
       this.uid = uid;
       this.videos = videos;
    }
 
    public PlaylistModel() {
-      this.playListName = "";
+      this.playlist_name = "";
       this.uid = "";
       this.videos = 0;
    }
 
-   public String getPlayListName() {
-      return playListName;
+   public String getPlaylist_name() {
+      return playlist_name;
    }
 
-   public void setPlayListName(String playListName) {
-      this.playListName = playListName;
+   public void setPlaylist_name(String playlist_name) {
+      this.playlist_name = playlist_name;
    }
 
    public String getUid() {

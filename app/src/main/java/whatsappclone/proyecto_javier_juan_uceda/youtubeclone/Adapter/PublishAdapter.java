@@ -99,7 +99,7 @@ public class PublishAdapter extends RecyclerView.Adapter<PublishAdapter.ViewHold
         }
 
         public void blind(final PlaylistModel playlistModel, final OnItemClick listener){
-            txt_playlist_name.setText(playlistModel.getPlayListName());
+            txt_playlist_name.setText(playlistModel.getPlaylist_name());
             txt_videos_count.setText("Videos " + playlistModel.getVideos());
             txt_playlist_name.setOnClickListener(view -> listener.onItemClick(playlistModel,listener));
             txt_videos_count.setOnClickListener(view -> listener.onItemClick(playlistModel,listener));

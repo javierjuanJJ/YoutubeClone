@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.telephony.mbms.StreamingServiceInfo;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -92,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements View.OnApplyWindo
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         frameLayout = findViewById(R.id.frame_layout);
 
-        userProfileImage = findViewById(R.id.user_profile_image);
+        userProfileImage = findViewById(R.id.channel_logo);
         appBarLayout = findViewById(R.id.appBar);
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();

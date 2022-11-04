@@ -14,7 +14,7 @@
         android:fontFamily="sans-serif"
         android:padding="5dp"
         android:drawablePadding="15sp"
-        android:textColor="#CC00000"
+        android:textColor="#CC0000"
         android:drawableStart="@drawable/history"/>
 
     <TextView

@@ -62,7 +62,7 @@ public class AccountActivity extends AppCompatActivity {
             }
         });
 
-        userProfileImage = findViewById(R.id.user_profile_image);
+        userProfileImage = findViewById(R.id.channel_logo);
         username = findViewById(R.id.user_channel_name);
         email = findViewById(R.id.email);
         txtYourChannerl = findViewById(R.id.txtYourChannerl);

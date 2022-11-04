@@ -32,14 +32,14 @@
             android:src="@drawable/ic_launcher_foreground"
             android:layout_marginTop="10dp"
             android:layout_marginStart="8dp"
-            android:id="@+id/user_profile_image" />
+            android:id="@+id/channel_logo" />
 
 
         <VideoView
             android:layout_width="match_parent"
             android:layout_height="170dp"
             android:id="@+id/videoView"
-            android:layout_below="@id/user_profile_image"
+            android:layout_below="@id/channel_logo"
             android:layout_margin="5dp"
             android:padding="5dp"/>
 

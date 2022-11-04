@@ -9,6 +9,7 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.webkit.MimeTypeMap;
@@ -73,10 +74,10 @@ public class PublishContentActivity extends AppCompatActivity {
     private void setUI() {
         videoView = findViewById(R.id.videoView);
         inputVideoTitle = findViewById(R.id.inputVideoTitle);
-        inputVideoDescription = findViewById(R.id.input_description);
+        inputVideoDescription = findViewById(R.id.inputVideoDescription);
         progressLayout = findViewById(R.id.progressLyT);
         progressText = findViewById(R.id.progress_text);
-
+        progressBar = findViewById(R.id.progressBar);
         mediaController = new MediaController(PublishContentActivity.this);
         chip = findViewById(R.id.inputVideoTag);
         txtUploadVideo = findViewById(R.id.txt_upload_video);
@@ -120,22 +121,27 @@ public class PublishContentActivity extends AppCompatActivity {
         RecyclerView recyclerView = dialog.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
 
+        checkUserAlreadyHavePlaylist(recyclerView);
+
+
+
+
         adapter = new PublishAdapter(PublishContentActivity.this, list, new PublishAdapter.OnItemClick() {
             @Override
             public void onItemClick(PlaylistModel model, PublishAdapter.OnItemClick listener) {
                 dialog.dismiss();
-                selectedPlaylist = model.getPlayListName();
+                selectedPlaylist = model.getPlaylist_name();
                 videosCount = model.getVideos();
-                txtChoosePlaylist.setText("Playlist: " + model.getPlayListName());
+                txtChoosePlaylist.setText("Playlist: " + model.getPlaylist_name());
             }
         });
+
+        showAllPlayLists(adapter, list);
 
         recyclerView.setAdapter(adapter);
 
 
-        checkUserAlreadyHavePlaylist(recyclerView);
 
-        showAllPlayLists(adapter, list);
 
         txt_add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -257,7 +263,7 @@ public class PublishContentActivity extends AppCompatActivity {
         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
     }
 
-    private void showAllPlayLists(PublishAdapter adapter, ArrayList<PlaylistModel> list) {
+    private void showAllPlayLists(PublishAdapter adapter2, ArrayList<PlaylistModel> list2) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Playlists");
@@ -265,13 +271,14 @@ public class PublishContentActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (snapshot.exists()){
-                        list.clear();
+                        list2.clear();
                         for (DataSnapshot dataSnapshot :
                                 snapshot.getChildren()) {
                             PlaylistModel model = dataSnapshot.getValue(PlaylistModel.class);
-                            list.add(model);
+                            Log.i("playlistitem",model.getPlaylist_name());
+                            list2.add(model);
                         }
-                        adapter.notifyDataSetChanged();
+                        adapter2.notifyDataSetChanged();
                     }
                 }
 
@@ -307,7 +314,7 @@ public class PublishContentActivity extends AppCompatActivity {
 
     private void checkUserAlreadyHavePlaylist(RecyclerView recyclerView) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Playlist");
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Playlists");
         reference.child(user.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
