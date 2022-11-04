@@ -23,6 +23,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import whatsappclone.proyecto_javier_juan_uceda.youtubeclone.Constants.FieldsConstants;
 import whatsappclone.proyecto_javier_juan_uceda.youtubeclone.Models.ContentModel;
 import whatsappclone.proyecto_javier_juan_uceda.youtubeclone.R;
 
@@ -49,20 +50,20 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ViewHold
         ContentModel model = list.get(position);
         if (model != null) {
             Glide.with(context).asBitmap().load(model.getVideoUrl()).into(holder.thumbnail);
-            holder.videoTitle.setText(model.getViews() + " views");
+            holder.videoTitle.setText(context.getString(R.string.videoTitle, model.getViews()));
             holder.date.setText(model.getDate());
             setData(model.getPublisher(), holder.channelLogo, holder.channelName);
         }
     }
 
     private void setData(String publisher, CircleImageView logo, TextView channelName) {
-        reference = FirebaseDatabase.getInstance().getReference().child("Channels");
+        reference = FirebaseDatabase.getInstance().getReference().child(FieldsConstants.CHANNELS_FIELD);
         reference.child(publisher).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()){
-                    String cName = snapshot.child("channel_name").getValue().toString();
-                    String cLogo = snapshot.child("channel_logo").getValue().toString();
+                    String cName = snapshot.child(FieldsConstants.CHANNEL_NAME_FIELD).getValue().toString();
+                    String cLogo = snapshot.child(FieldsConstants.CHANNEL_LOGO_FIELD).getValue().toString();
                     channelName.setText(cName);
                     Picasso.get().load(cLogo).placeholder(R.drawable.ic_launcher_background).into(logo);
                 }

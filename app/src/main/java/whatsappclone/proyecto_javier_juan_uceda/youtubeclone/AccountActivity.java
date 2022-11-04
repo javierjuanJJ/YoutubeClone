@@ -177,7 +177,7 @@ public class AccountActivity extends AppCompatActivity {
     }
 
     private void getData() {
-        reference.child("Users").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+        reference.child(FieldsConstants.USERS_FIELD).child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()){

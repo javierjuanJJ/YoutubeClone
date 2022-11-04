@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import whatsappclone.proyecto_javier_juan_uceda.youtubeclone.Adapter.ContentAdapter;
+import whatsappclone.proyecto_javier_juan_uceda.youtubeclone.Constants.FieldsConstants;
 import whatsappclone.proyecto_javier_juan_uceda.youtubeclone.Models.ContentModel;
 import whatsappclone.proyecto_javier_juan_uceda.youtubeclone.R;
 
@@ -53,7 +54,7 @@ public class HomeFragment extends Fragment {
         recyclerView = inflate.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
 
-        reference = FirebaseDatabase.getInstance().getReference().child("Content");
+        reference = FirebaseDatabase.getInstance().getReference().child(FieldsConstants.CONTENT_FIELD);
 
         getAllVideos();
 
@@ -80,7 +81,7 @@ public class HomeFragment extends Fragment {
                     recyclerView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
                 } else {
-                    Toast.makeText(getContext(), "No data found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.toastNoData), Toast.LENGTH_SHORT).show();
                 }
 
             }

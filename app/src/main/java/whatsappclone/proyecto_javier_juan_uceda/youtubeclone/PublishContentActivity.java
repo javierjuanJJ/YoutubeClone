@@ -41,7 +41,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
-import whatsappclone.proyecto_javier_juan_uceda.youtubeclone.Adapter.PublishAdapter;
+import whatsappclone.proyecto_javier_juan_uceda.youtubeclone.Adapter.PlayListAdapter;
+import whatsappclone.proyecto_javier_juan_uceda.youtubeclone.Constants.FieldsConstants;
+import whatsappclone.proyecto_javier_juan_uceda.youtubeclone.Constants.IntentConstants;
 import whatsappclone.proyecto_javier_juan_uceda.youtubeclone.Models.PlaylistModel;
 
 public class PublishContentActivity extends AppCompatActivity {
@@ -92,8 +94,8 @@ public class PublishContentActivity extends AppCompatActivity {
         }
 
         user = FirebaseAuth.getInstance().getCurrentUser();
-        reference = FirebaseDatabase.getInstance().getReference().child("Content");
-        storageReference = FirebaseStorage.getInstance().getReference().child("Content");
+        reference = FirebaseDatabase.getInstance().getReference().child(FieldsConstants.CONTENT_FIELD);
+        storageReference = FirebaseStorage.getInstance().getReference().child(FieldsConstants.CONTENT_FIELD);
 
 
         txtChoosePlaylist.setOnClickListener(new View.OnClickListener() {
@@ -116,7 +118,7 @@ public class PublishContentActivity extends AppCompatActivity {
         TextView txt_add = dialog.findViewById(R.id.txt_add);
 
         ArrayList<PlaylistModel> list = new ArrayList<>();
-        PublishAdapter adapter;
+        PlayListAdapter adapter;
 
         RecyclerView recyclerView = dialog.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -126,9 +128,9 @@ public class PublishContentActivity extends AppCompatActivity {
 
 
 
-        adapter = new PublishAdapter(PublishContentActivity.this, list, new PublishAdapter.OnItemClick() {
+        adapter = new PlayListAdapter(PublishContentActivity.this, list, new PlayListAdapter.OnItemClick() {
             @Override
-            public void onItemClick(PlaylistModel model, PublishAdapter.OnItemClick listener) {
+            public void onItemClick(PlaylistModel model, PlayListAdapter.OnItemClick listener) {
                 dialog.dismiss();
                 selectedPlaylist = model.getPlaylist_name();
                 videosCount = model.getVideos();
@@ -148,7 +150,7 @@ public class PublishContentActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String value = input_playlist_name.getText().toString();
                 if (value.isEmpty()){
-                    Toast.makeText(PublishContentActivity.this, "Enter Playlist name", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PublishContentActivity.this, getString(R.string.toastEnterPlaylist), Toast.LENGTH_SHORT).show();
                 }
                 else {
                     createPlayList(value);
@@ -166,14 +168,14 @@ public class PublishContentActivity extends AppCompatActivity {
             
                 if (title.isEmpty() || description.isEmpty()){
                     if (title.isEmpty()){
-                        Toast.makeText(PublishContentActivity.this, "Fill title field", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PublishContentActivity.this, getString(R.string.toastFillTitle), Toast.LENGTH_SHORT).show();
                     }
                     else {
-                        Toast.makeText(PublishContentActivity.this, "Fill description field", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PublishContentActivity.this, getString(R.string.toastFillDescription), Toast.LENGTH_SHORT).show();
                     }
                 }
-                else if(txtChoosePlaylist.getText().toString().equals("Choose Playlist")){
-                    Toast.makeText(PublishContentActivity.this, "Please select playlist", Toast.LENGTH_SHORT).show();
+                else if(txtChoosePlaylist.getText().toString().equals(getString(R.string.tvChoosePlaylist))){
+                    Toast.makeText(PublishContentActivity.this, getString(R.string.toastSelectPlaylist), Toast.LENGTH_SHORT).show();
                 }
                 else {
                     uploadVideoToStorage(title, description);
@@ -215,22 +217,22 @@ public class PublishContentActivity extends AppCompatActivity {
         String id = reference.push().getKey();
         HashMap<String, Object> map = new HashMap<>();
 
-        map.put("id", id);
-        map.put("video_title", title);
+        map.put(FieldsConstants.ID_FIELD, id);
+        map.put(FieldsConstants.VIDEO_TITLE_FIELD, title);
         //map.put("video_tag",tag);
-        map.put("playlist",selectedPlaylist);
-        map.put("video_url",videoUrl);
-        map.put("publisher", user.getUid());
-        map.put("type","video");
-        map.put("views", 0);
-        map.put("date",currentDate);
+        map.put(FieldsConstants.PLAYLIST_FIELD, selectedPlaylist);
+        map.put(IntentConstants.VIDEO_URL_FIELD, videoUrl);
+        map.put(FieldsConstants.PUBLISHER_FIELD, user.getUid());
+        map.put(IntentConstants.TYPE_INTENT_KEY, IntentConstants.VIDEO_INTENT_KEY);
+        map.put(FieldsConstants.VIEWS_FIELD, 0);
+        map.put(FieldsConstants.DATE_FIELD, currentDate);
 
         reference.child(id).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()){
                     progressLayout.setVisibility(View.GONE);
-                    Toast.makeText(PublishContentActivity.this, "Video uploaded", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PublishContentActivity.this, getString(R.string.toastVideoUploaded), Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(PublishContentActivity.this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                     finish();
 
@@ -239,7 +241,7 @@ public class PublishContentActivity extends AppCompatActivity {
                 }
                 else {
                     progressLayout.setVisibility(View.GONE);
-                    Toast.makeText(PublishContentActivity.this, "Failed to upload", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PublishContentActivity.this, getString(R.string.toastFailedUpload), Toast.LENGTH_SHORT).show();
 
                 }
             }
@@ -248,11 +250,11 @@ public class PublishContentActivity extends AppCompatActivity {
 
     private void updateVideoCount() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Playlists");
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child(FieldsConstants.PLAYLISTS_FIELD);
 
         int update = videosCount + 1;
         HashMap<String, Object> map = new HashMap<>();
-        map.put("videos", update);
+        map.put(FieldsConstants.VIDEOS_FIELD, update);
 
         reference.child(user.getUid()).child(selectedPlaylist).updateChildren(map);
     }
@@ -263,10 +265,10 @@ public class PublishContentActivity extends AppCompatActivity {
         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
     }
 
-    private void showAllPlayLists(PublishAdapter adapter2, ArrayList<PlaylistModel> list2) {
+    private void showAllPlayLists(PlayListAdapter adapter2, ArrayList<PlaylistModel> list2) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
-            DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Playlists");
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child(FieldsConstants.PLAYLISTS_FIELD);
             reference.child(user.getUid()).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -292,18 +294,18 @@ public class PublishContentActivity extends AppCompatActivity {
 
     private void createPlayList(String value) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Playlists");
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child(FieldsConstants.PLAYLISTS_FIELD);
 
         HashMap<String, Object> map = new HashMap<>();
-        map.put("playlist_name", value);
-        map.put("videos",0);
-        map.put("uid",user.getUid());
+        map.put(FieldsConstants.PLAYLIST_NAME_FIELD, value);
+        map.put(FieldsConstants.VIDEOS_FIELD, 0);
+        map.put(FieldsConstants.UID_FIELD,user.getUid());
         
         reference.child(user.getUid()).child(value).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()){
-                    Toast.makeText(PublishContentActivity.this, "New playlist created", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PublishContentActivity.this, getString(R.string.toastNewPlaylistCreated), Toast.LENGTH_SHORT).show();
                 }
                 else {
                     Toast.makeText(PublishContentActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
@@ -314,12 +316,12 @@ public class PublishContentActivity extends AppCompatActivity {
 
     private void checkUserAlreadyHavePlaylist(RecyclerView recyclerView) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Playlists");
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child(FieldsConstants.PLAYLISTS_FIELD);
         reference.child(user.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()){
-                    Toast.makeText(PublishContentActivity.this, "User have playlists", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PublishContentActivity.this, getString(R.string.toastUserHavePlaylists), Toast.LENGTH_SHORT).show();
                     recyclerView.setVisibility(View.VISIBLE);
                 }
                 else {

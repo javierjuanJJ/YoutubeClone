@@ -50,4 +50,15 @@
     <string name="tvDialogueUpload">Share interesting and entertaining posts to your subscribers</string>
     <string name="tvReleaseAPoll">Release a poll</string>
     <string name="tvPool">Create a simple poll with your favourite questions</string>
+    <string name="txtVideosCount">Videos %d</string>
+    <string name="videoTitle">%d views</string>
+    <string name="toastNoData">No data found</string>
+    <string name="toastEnterPlaylist">Enter Playlist name</string>
+    <string name="toastFillTitle">Fill title field</string>
+    <string name="toastFillDescription">Fill description field</string>
+    <string name="toastSelectPlaylist">Please select playlist</string>
+    <string name="toastVideoUploaded">Video uploaded</string>
+    <string name="toastFailedUpload">Failed to upload</string>
+    <string name="toastNewPlaylistCreated">New playlist created</string>
+    <string name="toastUserHavePlaylists">User have playlists</string>
 </resources>
