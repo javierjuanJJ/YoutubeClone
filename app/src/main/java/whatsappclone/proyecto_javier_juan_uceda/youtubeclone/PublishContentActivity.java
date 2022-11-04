@@ -91,8 +91,8 @@ public class PublishContentActivity extends AppCompatActivity {
         }
 
         user = FirebaseAuth.getInstance().getCurrentUser();
-        reference = FirebaseDatabase.getInstance().getReference().child("Videos");
-        storageReference = FirebaseStorage.getInstance().getReference().child("Videos");
+        reference = FirebaseDatabase.getInstance().getReference().child("Content");
+        storageReference = FirebaseStorage.getInstance().getReference().child("Content");
 
 
         txtChoosePlaylist.setOnClickListener(new View.OnClickListener() {
@@ -206,18 +206,20 @@ public class PublishContentActivity extends AppCompatActivity {
 
     private void saveDataToFirebase(String title, String description, String videoUrl) {
         String currentDate = DateFormat.getDateInstance().format(new Date());
-        String videoId = reference.push().getKey();
+        String id = reference.push().getKey();
         HashMap<String, Object> map = new HashMap<>();
 
-        map.put("videoId", videoId);
+        map.put("id", id);
         map.put("video_title", title);
         //map.put("video_tag",tag);
         map.put("playlist",selectedPlaylist);
         map.put("video_url",videoUrl);
         map.put("publisher", user.getUid());
+        map.put("type","video");
+        map.put("views", 0);
         map.put("date",currentDate);
 
-        reference.child(videoId).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+        reference.child(id).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()){
